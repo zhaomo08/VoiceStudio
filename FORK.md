@@ -24,3 +24,9 @@ git cherry-pick -x -m 1 <sha>       # 上游 PR merge（列表里标了 [merge: 
 `-x` 会在提交里写 `cherry picked from commit <sha>`，脚本靠它判断哪些已经挑过，**别省略**。
 
 新文件优先放在独立路径（如本文件），少改上游已有文件，降低以后 cherry-pick 冲突。
+
+## GitHub Actions
+
+本 fork 已关闭 Actions（`gh api -X PUT repos/zhaomo08/VoiceStudio/actions/permissions -F enabled=false`）。
+上游 workflow 写死了 `ghcr.io/debpalash/...` 并依赖上游 secrets，在 fork 上必然失败；每次同步 main 还会白跑全套 CI。
+需要 CI 时再用 `-F enabled=true` 打开，并只启用需要的 workflow（`gh workflow disable/enable <name>`）。
